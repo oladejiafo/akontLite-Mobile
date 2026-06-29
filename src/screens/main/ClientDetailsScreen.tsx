@@ -263,7 +263,7 @@ export default function ClientDetailsScreen() {
                   </View>
                   <View style={styles.invoiceMeta}>
                     <Text style={styles.invoiceDate}>
-                      Due: {new Date(invoice.due_date).toLocaleDateString()}
+                      Due: {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : 'N/A'}
                     </Text>
                     <Text style={[
                       styles.invoiceStatus,

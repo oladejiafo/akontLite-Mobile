@@ -91,7 +91,7 @@ export default function InvoiceDetailsScreen() {
         <Card.Content>
           <Text style={styles.invoiceNumber}>Invoice {invoice.invoice_no}</Text>
           <Text style={styles.clientName}>{invoice.client?.name || 'N/A'}</Text>
-          <Text style={styles.amount}>{formatCurrency(invoice.total)}</Text>
+          <Text style={styles.amount}>{formatCurrency(invoice.total ?? invoice.total_amount)}</Text>
         </Card.Content>
       </Card>
 
@@ -100,11 +100,11 @@ export default function InvoiceDetailsScreen() {
           <Text style={styles.sectionTitle}>Details</Text>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Issue Date:</Text>
-            <Text style={styles.detailValue}>{formatDate(invoice.issue_date)}</Text>
+            <Text style={styles.detailValue}>{formatDate(invoice.issue_date ?? '')}</Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Due Date:</Text>
-            <Text style={styles.detailValue}>{formatDate(invoice.due_date)}</Text>
+            <Text style={styles.detailValue}>{formatDate(invoice.due_date ?? '')}</Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Status:</Text>

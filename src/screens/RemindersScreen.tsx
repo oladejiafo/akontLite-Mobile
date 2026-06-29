@@ -40,7 +40,7 @@ type TabType = 'templates' | 'rules' | 'scheduled' | 'sent';
 const convertStepsForForm = (steps: EscalationStep[]) => {
   return steps.map(step => ({
     ...step,
-    template_id: step.template_id.toString(), // Convert number to string
+    template_id: (step.template_id ?? '').toString(), // Convert number to string
   }));
 };
 
@@ -174,8 +174,8 @@ export default function RemindersScreen() {
       name: template.name,
       subject: template.subject,
       body: template.body,
-      type: template.type,
-      trigger_days: template.trigger_days,
+      type: (template.type ?? 'email') as 'email' | 'whatsapp' | 'sms',
+      trigger_days: template.trigger_days ?? 0,
     });
     setShowTemplateModal(true);
   };
@@ -188,8 +188,8 @@ export default function RemindersScreen() {
     
     setRuleForm({
       name: rule.name,
-      is_active: rule.is_active,
-      steps: steps,
+      is_active: rule.is_active ?? false,
+      steps: steps as any,
     });
     setShowRuleModal(true);
   };
@@ -478,11 +478,11 @@ export default function RemindersScreen() {
                   <View key={template.id} style={styles.templateItem}>
                     <View style={styles.templateHeader}>
                       <Text style={styles.templateName}>{template.name}</Text>
-                      {getChannelBadge(template.type)}
+                      {getChannelBadge(template.type ?? '')}
                     </View>
                     <Text style={styles.templateSubject}>{template.subject}</Text>
                     <Text style={styles.templateTrigger}>
-                      {getTriggerText(template.trigger_days)}
+                      {getTriggerText(template.trigger_days ?? 0)}
                     </Text>
                     <View style={styles.templateActions}>
                       <Button
@@ -545,7 +545,7 @@ export default function RemindersScreen() {
                       {(rule.steps_json || rule.steps).map((step, idx) => (
                         <View key={idx} style={styles.stepItem}>
                           <Text style={styles.stepText}>
-                            Step {idx + 1}: {getTriggerText(step.trigger_days)} via {step.channel}
+                            Step {idx + 1}: {getTriggerText(step.trigger_days ?? 0)} via {step.channel}
                           </Text>
                         </View>
                       ))}

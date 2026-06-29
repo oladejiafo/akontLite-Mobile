@@ -169,9 +169,9 @@ export default function BillingScreen() {
                       <Text style={styles.usageLabel}>
                         Invoices: {usage.invoices_used} / {currentPlan.invoice_limit === 0 ? 'Unlimited' : currentPlan.invoice_limit}
                       </Text>
-                      {currentPlan.invoice_limit > 0 && (
+                      {(currentPlan.invoice_limit ?? 0) > 0 && (
                         <ProgressBar 
-                          progress={getUsagePercentage(usage.invoices_used, currentPlan.invoice_limit) / 100}
+                          progress={getUsagePercentage(usage.invoices_used, currentPlan.invoice_limit ?? 0) / 100}
                           style={styles.progressBar}
                           color="#2dc4b6"
                         />
@@ -182,9 +182,9 @@ export default function BillingScreen() {
                       <Text style={styles.usageLabel}>
                         Reminders: {usage.reminders_used} / {currentPlan.reminder_limit === 0 ? 'Unlimited' : currentPlan.reminder_limit}
                       </Text>
-                      {currentPlan.reminder_limit > 0 && (
+                      {(currentPlan.reminder_limit ?? 0) > 0 && (
                         <ProgressBar 
-                          progress={getUsagePercentage(usage.reminders_used, currentPlan.reminder_limit) / 100}
+                          progress={getUsagePercentage(usage.reminders_used, currentPlan.reminder_limit ?? 0) / 100}
                           style={styles.progressBar}
                           color="#2dc4b6"
                         />
@@ -275,7 +275,7 @@ export default function BillingScreen() {
               ) : (
                 <Button
                   mode={plan.price > (currentPlan?.price || 0) ? "contained" : "outlined"}
-                  onPress={() => handleUpgrade(plan.id)}
+                  onPress={() => handleUpgrade(Number(plan.id))}
                   disabled={loading}
                   style={styles.planButton}
                 >

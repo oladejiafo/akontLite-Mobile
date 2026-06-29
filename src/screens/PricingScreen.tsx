@@ -67,7 +67,7 @@ const loadPlans = async () => {
         // Free plan - downgrade directly
         try {
           setLoading(true);
-          await subscriptionAPI.updateSubscription(plan.id);
+          await subscriptionAPI.updateSubscription(Number(plan.id));
           Alert.alert('Success', 'Plan updated successfully');
           // Refresh plans to show current plan
           loadPlans();
@@ -81,7 +81,7 @@ const loadPlans = async () => {
         // Paid plan - start checkout process
         try {
           setLoading(true);
-          const response = await subscriptionAPI.createCheckoutSession(plan.id);
+          const response = await subscriptionAPI.createCheckoutSession(Number(plan.id));
           
           if (response.data.checkout_url) {
             // Open payment gateway (Flutterwave/Stripe)

@@ -7,7 +7,9 @@ import {
   RefreshControl,
   ActivityIndicator,
   Alert,
+  TouchableOpacity,
 } from "react-native";
+import { useNavigation } from '@react-navigation/native';
 import { Card, Button } from "react-native-paper";
 import { useAuth } from "../../context/AuthContext";
 import { dashboardAPI, invoiceAPI, companyAPI } from "../../services/api"; // Import correct APIs
@@ -22,6 +24,7 @@ export default function DashboardScreen() {
   const [company, setCompany] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const navigation = useNavigation();
 
   const fetchDashboardData = async () => {
     try {
@@ -89,7 +92,7 @@ export default function DashboardScreen() {
         <Text style={styles.clientName}>{invoice.client?.name || "N/A"}</Text>
         <View style={styles.invoiceFooter}>
           <Text style={styles.dueDate}>
-            Due: {new Date(invoice.due_date).toLocaleDateString()}
+            Due: {invoice.due_date ? new Date(invoice.due_date).toLocaleDateString() : 'N/A'}
           </Text>
           <View
             style={[
@@ -323,9 +326,65 @@ export default function DashboardScreen() {
           )}
         </Card.Content>
       </Card>
+
+//Added
+      <View style={dashFabStyles.fabContainer}>
+        <TouchableOpacity
+          style={dashFabStyles.fabSecondary}
+          onPress={() => navigation.navigate('ScanReceipt' as never)}
+        >
+          <Text style={dashFabStyles.fabSecondaryText}>📷</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={dashFabStyles.fab}
+          onPress={() => navigation.navigate('QuickCreate' as never)}
+        >
+          <Text style={dashFabStyles.fabText}>+ New</Text>
+        </TouchableOpacity>
+      </View>
+
     </ScrollView>
   );
 }
+
+const dashFabStyles = StyleSheet.create({
+  fabContainer: {
+    position:   'absolute',
+    bottom:     24,
+    right:      16,
+    flexDirection: 'row',
+    gap:        10,
+    alignItems: 'center',
+  },
+  fab: {
+    backgroundColor: '#2563EB',
+    borderRadius:    30,
+    paddingHorizontal: 20,
+    paddingVertical:   14,
+    shadowColor:     '#2563EB',
+    shadowOffset:    { width: 0, height: 4 },
+    shadowOpacity:   0.3,
+    shadowRadius:    8,
+    elevation:       6,
+  },
+  fabText:        { color: '#fff', fontWeight: '800', fontSize: 15 },
+  fabSecondary: {
+    backgroundColor: '#fff',
+    borderRadius:    30,
+    width:           48,
+    height:          48,
+    alignItems:      'center',
+    justifyContent:  'center',
+    shadowColor:     '#000',
+    shadowOffset:    { width: 0, height: 2 },
+    shadowOpacity:   0.1,
+    shadowRadius:    4,
+    elevation:       4,
+    borderWidth:     1,
+    borderColor:     '#e5e7eb',
+  },
+  fabSecondaryText: { fontSize: 20 },
+});
 
 const styles = StyleSheet.create({
   container: {

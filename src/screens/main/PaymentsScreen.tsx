@@ -167,7 +167,7 @@ export default function PaymentsScreen() {
                   <View key={payment.id} style={styles.paymentItem}>
                     <View style={styles.paymentHeader}>
                       <Text style={styles.paymentId}>PMT-{payment.id}</Text>
-                      {getStatusBadge(payment.status)}
+                      {getStatusBadge(payment.status ?? '')}
                     </View>
                     
                     <View style={styles.paymentDetails}>

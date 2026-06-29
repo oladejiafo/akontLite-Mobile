@@ -211,7 +211,7 @@ export default function InvoicesScreen() {
                     </Text>
                   </View>
                   <Text style={styles.invoiceAmount}>
-                    {formatCurrency(invoice.total)}
+                    {formatCurrency(invoice.total ?? invoice.total_amount)}
                   </Text>
                 </View>
 
@@ -219,20 +219,20 @@ export default function InvoicesScreen() {
                   <View style={styles.detailRow}>
                     <Text style={styles.detailLabel}>Issue Date:</Text>
                     <Text style={styles.detailValue}>
-                      {formatDate(invoice.issue_date)}
+                      {formatDate(invoice.issue_date ?? '')}
                     </Text>
                   </View>
 
                   <View style={styles.detailRow}>
                     <Text style={styles.detailLabel}>Due Date:</Text>
                     <Text style={styles.detailValue}>
-                      {formatDate(invoice.due_date)}
+                      {formatDate(invoice.due_date ?? '')}
                     </Text>
                   </View>
 
                   <View style={styles.detailRow}>
                     <Text style={styles.detailLabel}>Status:</Text>
-                    {getStatusBadge(invoice.status, invoice.due_date)}
+                    {getStatusBadge(invoice.status, invoice.due_date ?? '')}
                   </View>
                 </View>
 

@@ -136,7 +136,7 @@ export default function EditInvoiceScreen() {
     if (!invoice) return;
     setInvoice({ 
       ...invoice, 
-      items: [...invoice.items, { description: '', quantity: 1, rate: 0 }] 
+      items: [...invoice.items, { description: '', quantity: 1, rate: 0, unit_price: 0, tax_rate: 0, tax_amount: 0, total: 0 }]
     });
   };
 
@@ -152,7 +152,7 @@ export default function EditInvoiceScreen() {
       setError('Please select a client');
       return false;
     }
-    if (invoice.items.some(item => !item.description || item.quantity <= 0 || item.rate < 0)) {
+    if (invoice.items.some(item => !item.description || item.quantity <= 0 || (item.rate ?? 0) < 0)) {
       setError('Please fill all item fields with valid values');
       return false;
     }
@@ -321,7 +321,7 @@ export default function EditInvoiceScreen() {
                   />
                   <PaperInput
                     label="Rate"
-                    value={item.rate.toString()}
+                    value={(item.rate ?? 0).toString()}
                     onChangeText={(value) => handleItemChange(idx, 'rate', value)}
                     mode="outlined"
                     keyboardType="numeric"
@@ -329,7 +329,7 @@ export default function EditInvoiceScreen() {
                   />
                   <View style={styles.amountContainer}>
                     <Text style={styles.amountText}>
-                      {formatCurrency(item.quantity * item.rate)}
+                      {formatCurrency(item.quantity * (item.rate ?? 0))}
                     </Text>
                   </View>
                   {invoice.items.length > 1 && (
